@@ -4,6 +4,43 @@
     ViewBag.Title = "Index";
 }
 
+<script 
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#location').on('change', function () {
+            if (this.value == '0') {
+                $(".1").show();
+                $(".2").show();
+                $(".3").show();
+            }
+
+            if (this.value == '1')
+            {
+                $(".1").show();
+                $(".2").hide();
+                $(".3").hide();
+            }
+
+            if (this.value == '2')
+            {
+                $(".1").hide();
+                $(".2").show();
+                $(".3").hide();
+            }
+
+            if (this.value == '3')
+            {
+                $(".1").hide();
+                $(".2").hide();
+                $(".3").show();
+            }
+        });
+    });
+</script>
+
 <h2>Index</h2>
 
 <p>
@@ -12,7 +49,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Location.LocationName)
+            @Html.DisplayNameFor(model => model.Location.LocationName):
+            <select id="location">
+                <option value="0">All</option>
+                <option value="1">Cannon Commons</option>
+                <option value="2">Moa Cafe</option>
+                <option value="3">Skyroom Buffet</option>
+            </select>
         </th>
         <th>
             Name
@@ -21,8 +64,8 @@
             Next Step
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Email)
+            </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Hired)
         </th>
@@ -39,19 +82,21 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.Location.LocationName)
         </td>
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
         </td>
-        <td>
+        <td class="@item.LocationID">
             @if (item.Hired == false)
             {
                 <div style="color: red"><strong>Hire Applicant</strong></div>
-            } else if (item.EPaf == false && item.Hired == true)
+            }
+            else if (item.EPaf == false && item.Hired == true)
             {
                 <div style="color: red"><strong>EPAF</strong></div>
             }
@@ -65,42 +110,42 @@
             }
             else
             {
-                <div style="color: green"><strong>Done</strong></div>
+                <div style="color: limegreen"><strong>Done</strong></div>
             }
         </td>
         @*<td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>*@
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.Hired)
         </td>
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.EPaf)
             @if (item.EPaf == false)
             {
                 <a href="https://google.com">EPAF</a>
             }
         </td>
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.I9)
             @if (item.I9 == false)
             {
                 <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired">I9</a>
             }
         </td>
-        <td>
+        <td class="@item.LocationID">
             @Html.DisplayFor(modelItem => item.Training)
             @if (item.Training == false)
             {
-                <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>            
+                <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>
             }
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicantID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ApplicantID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicantID })
+        <td class="@item.LocationID">
+            @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
         </td>
     </tr>
-}
+    }
 
 </table>

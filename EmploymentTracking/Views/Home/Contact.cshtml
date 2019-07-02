@@ -4,14 +4,31 @@
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<script>
+    $(document).ready(function () {
+        $('#purpose').on('change', function () {
+            if (this.value == '1')
+            {
+                $("#practice").show();
+            }
+            else {
+                $("#practice").hide();
+            }
+        });
+    });
+</script>
+
+
+<body>
+    <select id="purpose">
+        <option value="0">Personal use</option>
+        <option value="1">Business use</option>
+        <option value="2">Passing on to a client</option>
+    </select>
+    <div id="practice">
+        Business Name
+    </div>
+</body>
