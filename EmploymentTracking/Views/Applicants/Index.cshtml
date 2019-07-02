@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EmploymentTracking.Models.Applicant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.LocationName)
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Next Step
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Hired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EPaf)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.I9)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Training)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @if (item.Hired == false)
+            {
+                <div style="color: red"><strong>Hire Applicant</strong></div>
+            } else if (item.EPaf == false && item.Hired == true)
+            {
+                <div style="color: red"><strong>EPAF</strong></div>
+            }
+            else if (item.I9 == false && item.EPaf == true)
+            {
+                <div style="color: red"><strong>I9</strong></div>
+            }
+            else if (item.Training == false && item.I9 == true)
+            {
+                <div style="color: red"><strong>Training</strong></div>
+            }
+            else
+            {
+                <div style="color: green"><strong>Done</strong></div>
+            }
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Hired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EPaf)
+            @if (item.EPaf == false)
+            {
+                <a href="https://google.com">EPAF</a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.I9)
+            @if (item.I9 == false)
+            {
+                <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired">I9</a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Training)
+            @if (item.Training == false)
+            {
+                <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>            
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicantID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ApplicantID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicantID })
+        </td>
+    </tr>
+}
+
+</table>
