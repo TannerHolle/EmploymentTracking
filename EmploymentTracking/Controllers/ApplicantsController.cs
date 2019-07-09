@@ -6,14 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DotNetCasClient;
 using EmploymentTracking.DAL;
 using EmploymentTracking.Models;
 
 namespace EmploymentTracking.Controllers
 {
+    [Authorize]
     public class ApplicantsController : Controller
     {
         private TrackingContext db = new TrackingContext();
+        public static string LinkID = "0";
 
         // GET: Applicants
         public ActionResult Index()
@@ -49,13 +52,41 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,Email,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
                 db.Application.Add(applicant);
                 db.SaveChanges();
                 return RedirectToAction("Index");
+            }
+
+            ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName", applicant.LocationID);
+            return View(applicant);
+        }
+
+        // GET: Applicants/Create
+        public ActionResult ApplicantCreate()
+        {
+            ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName");
+            return View();
+        }
+
+        // POST: Applicants/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ApplicantCreate([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        {
+            string LinkID = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
+            LinkID = LinkID.Substring(LinkID.Length - 23);
+            
+            if (ModelState.IsValid)
+            {
+                db.Application.Add(applicant);
+                db.SaveChanges();
+                return Redirect("https://byu.hirevue.com/signup/" + LinkID);
             }
 
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName", applicant.LocationID);
@@ -83,7 +114,7 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,Email,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
@@ -127,7 +158,21 @@ namespace EmploymentTracking.Controllers
             {
                 db.Dispose();
             }
-            base.Dispose(disposing);
+            base.Dispose(disposing);        
+        }
+
+        public ActionResult Schedule(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Applicant applicant = db.Application.Find(id);
+            if (applicant == null)
+            {
+                return HttpNotFound();
+            }
+            return View(applicant);
         }
     }
 }

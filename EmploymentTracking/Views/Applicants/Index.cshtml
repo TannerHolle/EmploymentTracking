@@ -4,8 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<script 
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 
 <script>
@@ -15,6 +14,9 @@
                 $(".1").show();
                 $(".2").show();
                 $(".3").show();
+                $(".4").show();
+                $(".5").show();
+                $(".6").show();
             }
 
             if (this.value == '1')
@@ -22,6 +24,9 @@
                 $(".1").show();
                 $(".2").hide();
                 $(".3").hide();
+                $(".4").hide();
+                $(".5").hide();
+                $(".6").hide();
             }
 
             if (this.value == '2')
@@ -29,6 +34,9 @@
                 $(".1").hide();
                 $(".2").show();
                 $(".3").hide();
+                $(".4").hide();
+                $(".5").hide();
+                $(".6").hide();
             }
 
             if (this.value == '3')
@@ -36,12 +44,42 @@
                 $(".1").hide();
                 $(".2").hide();
                 $(".3").show();
+                $(".4").hide();
+                $(".5").hide();
+                $(".6").hide();
+            }
+
+            if (this.value == '4') {
+                $(".1").hide();
+                $(".2").hide();
+                $(".3").hide();
+                $(".4").show();
+                $(".5").hide();
+                $(".6").hide();
+            }
+
+            if (this.value == '5') {
+                $(".1").hide();
+                $(".2").hide();
+                $(".3").hide();
+                $(".4").hide();
+                $(".5").show();
+                $(".6").hide();
+            }
+
+            if (this.value == '6') {
+                $(".1").hide();
+                $(".2").hide();
+                $(".3").hide();
+                $(".4").hide();
+                $(".5").hide();
+                $(".6").show();
             }
         });
     });
 </script>
 
-<h2>Index</h2>
+<h2>Tracking Dashboard</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -54,18 +92,24 @@
                 <option value="0">All</option>
                 <option value="1">Cannon Commons</option>
                 <option value="2">Moa Cafe</option>
-                <option value="3">Skyroom Buffet</option>
+                <option value="3">Skyroom</option>
+                <option value="4">Cougareat</option>
+                <option value="5">Harvey's</option>
+                <option value="6">Legends Grille</option>
             </select>
         </th>
         <th>
             Name
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.StudentNumber)
+        </th>
+        <th>
             Next Step
         </th>
         @*<th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Email)
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Hired)
         </th>
@@ -79,73 +123,88 @@
         <th>
             @Html.DisplayNameFor(model => model.Training)
         </th>
+        <th>
+            Schedule
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.Location.LocationName)
-        </td>
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td class="@item.LocationID">
-            @if (item.Hired == false)
-            {
-                <div style="color: red"><strong>Hire Applicant</strong></div>
-            }
-            else if (item.EPaf == false && item.Hired == true)
-            {
-                <div style="color: red"><strong>EPAF</strong></div>
-            }
-            else if (item.I9 == false && item.EPaf == true)
-            {
-                <div style="color: red"><strong>I9</strong></div>
-            }
-            else if (item.Training == false && item.I9 == true)
-            {
-                <div style="color: red"><strong>Training</strong></div>
-            }
-            else
-            {
-                <div style="color: limegreen"><strong>Done</strong></div>
-            }
-        </td>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>*@
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.Hired)
-        </td>
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.EPaf)
-            @if (item.EPaf == false)
-            {
-                <a href="https://google.com">EPAF</a>
-            }
-        </td>
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.I9)
-            @if (item.I9 == false)
-            {
-                <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired">I9</a>
-            }
-        </td>
-        <td class="@item.LocationID">
-            @Html.DisplayFor(modelItem => item.Training)
-            @if (item.Training == false)
-            {
-                <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>
-            }
-        </td>
-        <td class="@item.LocationID">
-            @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
-        </td>
-    </tr>
+        <tr>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.Location.LocationName)
+            </td>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.StudentNumber)
+            </td>
+            <td class="@item.LocationID">
+                @if (item.Hired == false)
+                {
+                    <div style="color: red"><strong>Hire Applicant</strong></div>
+                }
+                else if (item.EPaf == false && item.Hired == true)
+                {
+                    <div style="color: red"><strong>EPAF</strong></div>
+                }
+                else if (item.I9 == false && item.EPaf == true)
+                {
+                    <div style="color: red"><strong>I9</strong></div>
+                }
+                else if (item.Training == false && item.I9 == true)
+                {
+                    <div style="color: red"><strong>Training</strong></div>
+                }
+                else
+                {
+                    <div style="color: limegreen"><strong>Done</strong></div>
+                }
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>*@
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.Hired)
+            </td>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.EPaf)
+                @if (item.EPaf == false)
+                {
+                    <a href="https://google.com">EPAF</a>
+                }
+            </td>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.I9)
+                @if (item.I9 == false)
+                {
+                    <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired">I9</a>
+                }
+            </td>
+            <td class="@item.LocationID">
+                @Html.DisplayFor(modelItem => item.Training)
+                @if (item.Training == false)
+                {
+                    <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>
+                }
+            </td>
+            <td class="@item.LocationID">
+                @if (item.ScheduleAllowed == true)
+                {
+                    @Html.ActionLink("Schedule", "Schedule", new { id = item.ApplicantID })
+                } else
+                {
+                    <div>Not Allowed</div>
+                }
+            </td>
+            <td class="@item.LocationID">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
+            </td>
+        </tr>
     }
 
 </table>

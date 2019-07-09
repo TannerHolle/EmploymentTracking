@@ -17,7 +17,10 @@ namespace EmploymentTracking.Models
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
         public string LastName { get; set; }
+        [DisplayName("Student ID")]
+        public int? StudentNumber { get; set; }
         public string Email { get; set; }
+        public bool ScheduleAllowed { get; set; }
         public bool Hired { get; set; }
         public bool EPaf { get; set; }
         public bool I9 { get; set; }
