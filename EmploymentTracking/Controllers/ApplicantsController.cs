@@ -6,19 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DotNetCasClient;
 using EmploymentTracking.DAL;
 using EmploymentTracking.Models;
 
 namespace EmploymentTracking.Controllers
 {
-    [Authorize]
     public class ApplicantsController : Controller
     {
         private TrackingContext db = new TrackingContext();
-        public static string LinkID = "0";
 
         // GET: Applicants
+        [Authorize(Roles = "Manager")]
         public ActionResult Index()
         {
             var application = db.Application.Include(a => a.Location);
@@ -52,11 +50,12 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
                 db.Application.Add(applicant);
+                applicant.DateApplied = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,6 +65,7 @@ namespace EmploymentTracking.Controllers
         }
 
         // GET: Applicants/Create
+        [Authorize]
         public ActionResult ApplicantCreate()
         {
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName");
@@ -77,14 +77,15 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ApplicantCreate([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        public ActionResult ApplicantCreate([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
         {
             string LinkID = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             LinkID = LinkID.Substring(LinkID.Length - 23);
-            
+
             if (ModelState.IsValid)
             {
                 db.Application.Add(applicant);
+                applicant.DateApplied = DateTime.Now;
                 db.SaveChanges();
                 return Redirect("https://byu.hirevue.com/signup/" + LinkID);
             }
@@ -92,6 +93,7 @@ namespace EmploymentTracking.Controllers
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName", applicant.LocationID);
             return View(applicant);
         }
+
 
         // GET: Applicants/Edit/5
         public ActionResult Edit(int? id)
@@ -114,7 +116,7 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,LocationID")] Applicant applicant)
+        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
@@ -158,7 +160,7 @@ namespace EmploymentTracking.Controllers
             {
                 db.Dispose();
             }
-            base.Dispose(disposing);        
+            base.Dispose(disposing);
         }
 
         public ActionResult Schedule(int? id)
@@ -174,5 +176,6 @@ namespace EmploymentTracking.Controllers
             }
             return View(applicant);
         }
+
     }
 }

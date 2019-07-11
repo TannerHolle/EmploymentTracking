@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
 
@@ -108,8 +107,8 @@
             Next Step
         </th>
         @*<th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>*@
+                @Html.DisplayNameFor(model => model.Email)
+            </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Hired)
         </th>
@@ -125,6 +124,9 @@
         </th>
         <th>
             Schedule
+        </th>
+        <th>
+            Days Since Applied
         </th>
         <th></th>
     </tr>
@@ -194,10 +196,14 @@
                 @if (item.ScheduleAllowed == true)
                 {
                     @Html.ActionLink("Schedule", "Schedule", new { id = item.ApplicantID })
-                } else
+                }
+                else
                 {
                     <div>Not Allowed</div>
                 }
+            </td>
+            <td class="@item.LocationID">
+                @((DateTime.Now.Date - item.DateApplied.Date).Days)
             </td>
             <td class="@item.LocationID">
                 @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |

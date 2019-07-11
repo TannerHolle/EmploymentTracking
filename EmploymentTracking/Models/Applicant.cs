@@ -25,6 +25,11 @@ namespace EmploymentTracking.Models
         public bool EPaf { get; set; }
         public bool I9 { get; set; }
         public bool Training { get; set; }
+        public int DesiredHours { get; set; }
+        public bool WorkSunday { get; set; }
+        public bool WorkFootball { get; set; }
+        public DateTime DateApplied { get; set; }
+        
 
         [ForeignKey("Location")]
         public virtual int? LocationID { get; set; }
