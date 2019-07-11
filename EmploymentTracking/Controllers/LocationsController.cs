@@ -11,6 +11,7 @@ using EmploymentTracking.Models;
 
 namespace EmploymentTracking.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class LocationsController : Controller
     {
         private TrackingContext db = new TrackingContext();
