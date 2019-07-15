@@ -26,5 +26,10 @@ namespace EmploymentTracking.Controllers
 
             return View();
         }
+
+        public ActionResult Analytics()
+        {
+            return View();
+        }
     }
 }

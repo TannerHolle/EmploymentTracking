@@ -16,7 +16,7 @@ namespace EmploymentTracking.Controllers
         private TrackingContext db = new TrackingContext();
 
         // GET: Applicants
-        [Authorize(Roles = "Manager")]
+       // [Authorize(Roles = "Manager")]
         public ActionResult Index()
         {
             var application = db.Application.Include(a => a.Location);

@@ -3,85 +3,16 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+<script 
+        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 </script>
-
-<script>
-    $(document).ready(function () {
-        $('#location').on('change', function () {
-            if (this.value == '0') {
-                $(".1").show();
-                $(".2").show();
-                $(".3").show();
-                $(".4").show();
-                $(".5").show();
-                $(".6").show();
-            }
-
-            if (this.value == '1')
-            {
-                $(".1").show();
-                $(".2").hide();
-                $(".3").hide();
-                $(".4").hide();
-                $(".5").hide();
-                $(".6").hide();
-            }
-
-            if (this.value == '2')
-            {
-                $(".1").hide();
-                $(".2").show();
-                $(".3").hide();
-                $(".4").hide();
-                $(".5").hide();
-                $(".6").hide();
-            }
-
-            if (this.value == '3')
-            {
-                $(".1").hide();
-                $(".2").hide();
-                $(".3").show();
-                $(".4").hide();
-                $(".5").hide();
-                $(".6").hide();
-            }
-
-            if (this.value == '4') {
-                $(".1").hide();
-                $(".2").hide();
-                $(".3").hide();
-                $(".4").show();
-                $(".5").hide();
-                $(".6").hide();
-            }
-
-            if (this.value == '5') {
-                $(".1").hide();
-                $(".2").hide();
-                $(".3").hide();
-                $(".4").hide();
-                $(".5").show();
-                $(".6").hide();
-            }
-
-            if (this.value == '6') {
-                $(".1").hide();
-                $(".2").hide();
-                $(".3").hide();
-                $(".4").hide();
-                $(".5").hide();
-                $(".6").show();
-            }
-        });
-    });
-</script>
+<link rel="stylesheet" type="text/css" href="~/Content/DashboardStyles.css">
+<script src="~/Scripts/DashboardScripts.js"></script>
 
 <h2>Tracking Dashboard</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Applicant", "Create")
 </p>
 <table class="table">
     <tr>
@@ -106,20 +37,16 @@
         <th>
             Next Step
         </th>
-        @*<th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>*@
-        <th>
+        <th width="70px">
             @Html.DisplayNameFor(model => model.Hired)
         </th>
-        <th>
+        <th width="70px">
             @Html.DisplayNameFor(model => model.EPaf)
         </th>
-
-        <th>
+        <th width="70px">
             @Html.DisplayNameFor(model => model.I9)
         </th>
-        <th>
+        <th width="70px">
             @Html.DisplayNameFor(model => model.Training)
         </th>
         <th>
@@ -150,47 +77,34 @@
                 }
                 else if (item.EPaf == false && item.Hired == true)
                 {
-                    <div style="color: red"><strong>EPAF</strong></div>
+                    <a href="https://www.google.com" target="_blank" style="color: red"><strong>EPAF</strong></a>
+
                 }
                 else if (item.I9 == false && item.EPaf == true)
                 {
-                    <div style="color: red"><strong>I9</strong></div>
+                    <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired" target="_blank" style="color: red"><strong>I9</strong></a>
                 }
                 else if (item.Training == false && item.I9 == true)
                 {
-                    <div style="color: red"><strong>Training</strong></div>
+                    <a href="mailto: @item.Email?subject=this is the subject&body=this is the body" style="color: red"><strong>Training</strong></a>
+
                 }
                 else
                 {
                     <div style="color: limegreen"><strong>Done</strong></div>
                 }
             </td>
-            @*<td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>*@
-            <td class="@item.LocationID">
+            <td class="@item.LocationID @( item.Hired ? "complete" : "imcomplete" )">
                 @Html.DisplayFor(modelItem => item.Hired)
             </td>
-            <td class="@item.LocationID">
+            <td class="@item.LocationID @( item.EPaf ? "complete" : "imcomplete" )">
                 @Html.DisplayFor(modelItem => item.EPaf)
-                @if (item.EPaf == false)
-                {
-                    <a href="https://google.com">EPAF</a>
-                }
             </td>
-            <td class="@item.LocationID">
+            <td class="@item.LocationID @( item.I9 ? "complete" : "imcomplete" )">
                 @Html.DisplayFor(modelItem => item.I9)
-                @if (item.I9 == false)
-                {
-                    <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired">I9</a>
-                }
             </td>
-            <td class="@item.LocationID">
+            <td class="@item.LocationID @( item.Training ? "complete" : "imcomplete" )">
                 @Html.DisplayFor(modelItem => item.Training)
-                @if (item.Training == false)
-                {
-                    <a href="mailto: @item.Email?subject=this is the subject&body=this is the body">Training</a>
-                }
             </td>
             <td class="@item.LocationID">
                 @if (item.ScheduleAllowed == true)

@@ -49,9 +49,9 @@ namespace EmploymentTracking.App_Start
         {
             string[] result = new string[] { };
             if (username == "hollett")
-                return new string[] { "Admin" };
+                return new string[] { "Manager", "Admin" };
             if (username == "dhaddad2")
-                return new string[] { "Manager" };
+                return new string[] { "Admin" };
             return result;
         }
 
