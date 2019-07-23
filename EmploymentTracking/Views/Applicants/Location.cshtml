@@ -1,0 +1,135 @@
+﻿@model IEnumerable<EmploymentTracking.Models.Applicant>
+
+@{
+    ViewBag.Title = "Location";
+}
+
+<h2>Location</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.LocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.International)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ScheduleAllowed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EForms)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.I9)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Orientation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OnSchedule)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DesiredHours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkSunday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkFootball)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Archive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateArchived)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateApplied)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.LocationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.International)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ScheduleAllowed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EForms)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.I9)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Orientation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OnSchedule)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DesiredHours)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkSunday)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkFootball)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Archive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateArchived)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateApplied)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ApplicantID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ApplicantID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ApplicantID })
+        </td>
+    </tr>
+}
+
+</table>

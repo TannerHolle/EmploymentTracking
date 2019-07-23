@@ -1,7 +1,44 @@
-﻿.complete {
+﻿/*body{
+    background-color: lightgrey;
+}*/
+
+.complete {
     background-color: limegreen;
+    border: dashed .5px white;
 }
 
 .imcomplete {
     background-color: red;
+    border: dashed .5px white;
+}
+
+.leftcomplete {
+    background-color: limegreen;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.leftimcomplete {
+    background-color: red;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.rightcomplete {
+    background-color: limegreen;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rightimcomplete {
+    background-color: red;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.tablestyle {
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }

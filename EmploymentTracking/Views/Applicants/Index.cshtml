@@ -1,130 +1,192 @@
 ﻿@model IEnumerable<EmploymentTracking.Models.Applicant>
 
-@{
-    ViewBag.Title = "Index";
-}
-<script 
-        src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-</script>
-<link rel="stylesheet" type="text/css" href="~/Content/DashboardStyles.css">
-<script src="~/Scripts/DashboardScripts.js"></script>
-
-<h2>Tracking Dashboard</h2>
-
-<p>
-    @Html.ActionLink("Create New Applicant", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Location.LocationName):
-            <select id="location">
-                <option value="0">All</option>
-                <option value="1">Cannon Commons</option>
-                <option value="2">Moa Cafe</option>
-                <option value="3">Skyroom</option>
-                <option value="4">Cougareat</option>
-                <option value="5">Harvey's</option>
-                <option value="6">Legends Grille</option>
-            </select>
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StudentNumber)
-        </th>
-        <th>
-            Next Step
-        </th>
-        <th width="70px">
-            @Html.DisplayNameFor(model => model.Hired)
-        </th>
-        <th width="70px">
-            @Html.DisplayNameFor(model => model.EPaf)
-        </th>
-        <th width="70px">
-            @Html.DisplayNameFor(model => model.I9)
-        </th>
-        <th width="70px">
-            @Html.DisplayNameFor(model => model.Training)
-        </th>
-        <th>
-            Schedule
-        </th>
-        <th>
-            Days Since Applied
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td class="@item.LocationID">
-                @Html.DisplayFor(modelItem => item.Location.LocationName)
-            </td>
-            <td class="@item.LocationID">
-                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td class="@item.LocationID">
-                @Html.DisplayFor(modelItem => item.StudentNumber)
-            </td>
-            <td class="@item.LocationID">
-                @if (item.Hired == false)
-                {
-                    <div style="color: red"><strong>Hire Applicant</strong></div>
-                }
-                else if (item.EPaf == false && item.Hired == true)
-                {
-                    <a href="https://www.google.com" target="_blank" style="color: red"><strong>EPAF</strong></a>
-
-                }
-                else if (item.I9 == false && item.EPaf == true)
-                {
-                    <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired" target="_blank" style="color: red"><strong>I9</strong></a>
-                }
-                else if (item.Training == false && item.I9 == true)
-                {
-                    <a href="mailto: @item.Email?subject=this is the subject&body=this is the body" style="color: red"><strong>Training</strong></a>
-
-                }
-                else
-                {
-                    <div style="color: limegreen"><strong>Done</strong></div>
-                }
-            </td>
-            <td class="@item.LocationID @( item.Hired ? "complete" : "imcomplete" )">
-                @Html.DisplayFor(modelItem => item.Hired)
-            </td>
-            <td class="@item.LocationID @( item.EPaf ? "complete" : "imcomplete" )">
-                @Html.DisplayFor(modelItem => item.EPaf)
-            </td>
-            <td class="@item.LocationID @( item.I9 ? "complete" : "imcomplete" )">
-                @Html.DisplayFor(modelItem => item.I9)
-            </td>
-            <td class="@item.LocationID @( item.Training ? "complete" : "imcomplete" )">
-                @Html.DisplayFor(modelItem => item.Training)
-            </td>
-            <td class="@item.LocationID">
-                @if (item.ScheduleAllowed == true)
-                {
-                    @Html.ActionLink("Schedule", "Schedule", new { id = item.ApplicantID })
-                }
-                else
-                {
-                    <div>Not Allowed</div>
-                }
-            </td>
-            <td class="@item.LocationID">
-                @((DateTime.Now.Date - item.DateApplied.Date).Days)
-            </td>
-            <td class="@item.LocationID">
-                @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
-            </td>
-        </tr>
+    @{
+        ViewBag.Title = "Index";
     }
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+    <link rel="stylesheet" type="text/css" href="~/Content/DashboardStyles.css">
+    <script src="~/Scripts/DashboardScripts.js"></script>
 
-</table>
+    <h2>Tracking Dashboard</h2>
+
+    <p>
+        @Html.ActionLink("Create New Applicant", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th width="50px">
+                @Html.DisplayNameFor(model => model.Location.LocationName):
+                <select id="location">
+                    <option value="0">All</option>
+                    <option value="1">Cannon Commons</option>
+                    <option value="2">Moa Cafe</option>
+                    <option value="3">Skyroom</option>
+                    <option value="4">Cougareat</option>
+                    <option value="5">Harvey's</option>
+                    <option value="6">Legends Grille</option>
+                </select>
+            </th>
+            <th>
+                Name
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.StudentNumber)
+        </th>*@
+            <th>
+                Next Step
+            </th>
+            <th width="10px">
+                (i)
+            </th>
+            <th width="50px">
+                @Html.DisplayNameFor(model => model.Hired)
+            </th>
+            <th width="50px">
+                On Schedule
+            </th>
+            <th width="50px">
+                @Html.DisplayNameFor(model => model.EForms)
+            </th>
+            <th width="50px">
+                <center>@Html.DisplayNameFor(model => model.I9)</center>
+            </th>
+            <th width="50px">
+                Orientation Complete
+            </th>
+            <th>
+                Schedule
+            </th>
+            <th style="width: 100px">
+                Days Since Applied
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.Archive == false)
+            {
+            <tr>
+                <td class="@item.LocationID">
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </td>
+                <td class="@item.LocationID">
+                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                    @if (item.International == false)
+                    {
+                        <span>(i)</span>
+                    }
+                </td>
+                @*This will make a clickable "next step" for each new hire*@
+                <td class="@item.LocationID">
+                    @if (item.International == false)
+                    {
+                        <div style="color: red"><strong>International</strong></div>
+                    }
+                    else if (item.International == true && item.Hired == false)
+                    {
+                        <a href="mailto: @item.Email?subject=Next Steps&body=@item.FirstName,%0D%0A %0D%0AWe are so glad that you applied to a position in%20
+BYU Dining Services, and we are happy to offer you a position in @item.Location.LocationName. We would love to have you as part of our team because LIST REASONS WHY THEY%20
+WERE HIRED HERE. You are now a part of the biggest family on campus. Dining services hires and employs more students on campus than other group. As part of being%20
+in our family we want to take care of you. We want to help you in the way that we do best and that is through food. As you are now part of our family you will%20
+receive a coupon that lets you get 50% off your food (up to $4) at the different dining locations on campus once per day. We are so glad to have you as part of%20
+our family and we look forward to working with you and getting to know you.%0D%0A%0D%0AThis is what you will need to do next following this email:%0D%0A
+%201.	  Collect documentation for your I-9 (see attachment for more information on what documents you will need to bring). %0D%0A
+%202.	  Wait to be contacted by the manager of your assigned area and they will work with you to assign you to a specific shift. %0D%0A
+%203.	  Wait for our next email before going to do your I-9. We will give you more information about where to go and what to do to fill out your I-9.%20
+%0D%0A %0D%0ALet us know if you have any questions!%0D%0A %0D%0AThanks!" style="color: red"><strong>Hire Email</strong></a>
+
+                    }
+                    else if (item.Hired == true && item.OnSchedule == false)
+                    {
+                        if (item.LocationID == 1)
+                        {
+                            <a href="mailto: @item.Email?subject=Complete Your I9&body=@item.FirstName,%0D%0A %0D%0AWe are just reaching out to you to let you know%20
+that you are now able to go and complete your I-9 paperwork. You will do this at the student employment office which is located at 2024 of the Wilkinson Student%20
+Center. You will need to bring the correct documentation to be able to complete you I-9. We just want to say again that we are excited to have you join our team%20
+and we look forward to working with you soon.%0D%0A %0D%0AThanks!" style="color: red"><strong>Schedule</strong></a>
+                        }
+                        else
+                        {
+                            <a href="mailto: @item.Email?subject=Next Steps&body=@item.FirstName,%0D%0A %0D%0AWe are so glad that you applied to a position in
+BYU Dining Services, and we are happy to offer you a position in FILL IN AREA HERE. We would love to have you as part of our team because LIST REASONS WHY THEY
+WERE HIRED HERE. You are now a part of the biggest family on campus. Dining services hires and employs more students on campus than other group. As part of being
+in our family we want to take care of you. We want to help you in the way that we do best and that is through food. As you are now part of our family you will
+receive a coupon that lets you get 50% off your food (up to $4) at the different dining locations on campus once per day. We are so glad to have you as part of
+our family and we look forward to working with you and getting to know you.%0D%0A%0D%0AThis is what you will need to do next following this email:%0D%0A
+%201.	  Collect documentation for your I-9 (see attachment for more information on what documents you will need to bring). %0D%0A
+%202.	  Wait to be contacted by the manager of your assigned area and they will work with you to assign you to a specific shift. %0D%0A
+%203.	  Wait for our next email before going to do your I-9. We will give you more information about where to go and what to do to fill out your I-9.
+%0D%0A %0D%0AThanks!" style="color: red"><strong>Schedule</strong></a>
+                        }
+                    }
+                    else if (item.OnSchedule == true && item.EForms == false)
+                    {
+                        <a href="https://www.google.com" target="_blank" style="color: red"><strong>EForms</strong></a>
+
+                    }
+                    else if (item.EForms == true && item.I9 == false)
+                    {
+                        <a href="mailto: @item.Email?subject=Complete Your I9&body=@item.FirstName,%0D%0A %0D%0AWe are just reaching out to you to let you know%20
+that you are now able to go and complete your I-9 paperwork. You will do this at the student employment office which is located at 2024 of the Wilkinson Student%20
+Center. You will need to bring the correct documentation to be able to complete you I-9. We just want to say again that we are excited to have you join our team and%20
+we look forward to working with you soon.%0D%0A %0D%0AThanks!" style="color: red"><strong>I9 Email</strong></a> }
+                    else if (item.I9 == true && item.Orientation == false)
+                    {
+                        <a href="https://www.google.com" target="_blank" style="color: red"><strong>Orientation</strong></a>
+
+                    }
+                    else
+                    {
+                        <div style="color: limegreen"><strong>Done</strong></div>
+                    }
+                </td>
+                @*The next 6 columns will be different colors based on how complete new hires are with the process*@
+                <td class="@item.LocationID @( item.International ? "leftcomplete" : "leftimcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.Internation)*@
+                </td>
+                <td class="@item.LocationID @( item.Hired ? "complete" : "imcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.Hired)*@
+                </td>
+                <td class="@item.LocationID @( item.OnSchedule ? "complete" : "imcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.Training)*@
+                </td>
+                <td class="@item.LocationID @( item.EForms ? "complete" : "imcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.EForms)*@
+                </td>
+                <td class="@item.LocationID @( item.I9 ? "complete" : "imcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.I9)*@
+                </td>
+                <td class="@item.LocationID @( item.Orientation ? "rightcomplete" : "rightimcomplete" )">
+                    @*@Html.DisplayFor(modelItem => item.Orientation)*@
+                </td>
+
+                <td class="@item.LocationID">
+                    @if (item.ScheduleAllowed == true)
+                    {
+                        @Html.ActionLink("Schedule", "Schedule", new { id = item.ApplicantID })
+                    }
+                    else
+                    {
+                        <div>Not Allowed</div>
+                    }
+                </td>
+                <td class="@item.LocationID">
+                    @((DateTime.Now.Date - item.DateApplied.Date).Days)
+                </td>
+                <td class="@item.LocationID">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
+                </td>
+            </tr>
+            }
+        }
+
+    </table>
+
+<div>(i) Denotes International Student</div>
+
+
+

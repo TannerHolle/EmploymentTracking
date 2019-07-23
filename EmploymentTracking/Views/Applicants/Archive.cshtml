@@ -1,0 +1,153 @@
+﻿@model IEnumerable<EmploymentTracking.Models.Applicant>
+
+@{
+    ViewBag.Title = "Archive";
+}
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<link rel="stylesheet" type="text/css" href="~/Content/DashboardStyles.css">
+<script src="~/Scripts/DashboardScripts.js"></script>
+
+<h2>Tracking Dashboard</h2>
+
+<p>
+    @Html.ActionLink("Create New Applicant", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.Location.LocationName):
+            <select id="location">
+                <option value="0">All</option>
+                <option value="1">Cannon Commons</option>
+                <option value="2">Moa Cafe</option>
+                <option value="3">Skyroom</option>
+                <option value="4">Cougareat</option>
+                <option value="5">Harvey's</option>
+                <option value="6">Legends Grille</option>
+            </select>
+        </th>
+        <th>
+            Name
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.StudentNumber)
+        </th>*@
+        @*<th>
+            Next Step
+        </th>*@
+        <th width="10px">
+            (i)
+        </th>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.Hired)
+        </th>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.OnSchedule)
+        </th>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.EForms)
+        </th>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.I9)
+        </th>
+        <th width="50px">
+            @Html.DisplayNameFor(model => model.Orientation)
+        </th>
+
+        <th>
+            Schedule
+        </th>
+        <th style="width: 100px">
+            Date Archived
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.Archive == true)
+        {
+    <tr>
+        <td class="@item.LocationID">
+            @Html.DisplayFor(modelItem => item.Location.LocationName)
+        </td>
+        <td class="@item.LocationID">
+            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+            @if (item.International == false)
+            {
+                <span>(i)</span>
+            }
+        </td>
+        @*<td class="@item.LocationID">
+            @Html.DisplayFor(modelItem => item.StudentNumber)
+        </td>*@
+        @*This will make a clickable "next step" for each new hire*@
+        @*<td class="@item.LocationID">
+            @if (item.Hired == false)
+            {
+                <div style="color: red"><strong>Hire Applicant</strong></div>
+            }
+            else if (item.EForms == false && item.Hired == true)
+            {
+                <a href="https://www.google.com" target="_blank" style="color: red"><strong>EPAF</strong></a>
+
+            }
+            else if (item.I9 == false && item.EForms == true)
+            {
+                <a href="https://hrs.byu.edu/managers/hiring-students/getting-hired" target="_blank" style="color: red"><strong>I9</strong></a>
+            }
+            else if (item.Training == false && item.I9 == true)
+            {
+                <a href="mailto: @item.Email?subject=This is the subject&body=This is the body" style="color: red"><strong>Training</strong></a>
+
+            }
+            else
+            {
+                <div style="color: limegreen"><strong>Done</strong></div>
+            }
+        </td>*@
+        @*The next 6 columns will be different colors based on how complete new hires are with the process*@
+        <td class="@item.LocationID @( item.International ? "leftcomplete" : "leftimcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.Internation)*@
+        </td>
+        <td class="@item.LocationID @( item.Hired ? "complete" : "imcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.Hired)*@
+        </td>
+        <td class="@item.LocationID @( item.OnSchedule ? "complete" : "imcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.Training)*@
+        </td>
+        <td class="@item.LocationID @( item.EForms ? "complete" : "imcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.EForms)*@
+        </td>
+        <td class="@item.LocationID @( item.I9 ? "complete" : "imcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.I9)*@
+        </td>
+        <td class="@item.LocationID @( item.Orientation ? "rightcomplete" : "rightimcomplete" )">
+            @*@Html.DisplayFor(modelItem => item.Orientation)*@
+        </td>
+
+        <td class="@item.LocationID">
+            @if (item.ScheduleAllowed == true)
+            {
+                @Html.ActionLink("Schedule", "Schedule", new { id = item.ApplicantID })
+            }
+            else
+            {
+                <div>Not Allowed</div>
+            }
+        </td>
+        <td class="@item.LocationID">
+            @(item.DateArchived)
+        </td>
+        <td class="@item.LocationID">
+            @Html.ActionLink("Edit", "Edit", new { id = item.ApplicantID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ApplicantID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ApplicantID })
+        </td>
+    </tr>
+        }
+    }
+
+</table>   

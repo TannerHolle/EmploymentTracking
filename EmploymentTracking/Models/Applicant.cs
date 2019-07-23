@@ -18,16 +18,21 @@ namespace EmploymentTracking.Models
         [DisplayName("Last Name")]
         public string LastName { get; set; }
         [DisplayName("Student ID")]
-        public int? StudentNumber { get; set; }
+        public int StudentNumber { get; set; }
         public string Email { get; set; }
+        [DisplayName("US Citizen")]
+        public bool International { get; set; }
         public bool ScheduleAllowed { get; set; }
         public bool Hired { get; set; }
-        public bool EPaf { get; set; }
+        public bool EForms { get; set; }
         public bool I9 { get; set; }
-        public bool Training { get; set; }
+        public bool Orientation { get; set; }
+        public bool OnSchedule { get; set; }
         public int DesiredHours { get; set; }
         public bool WorkSunday { get; set; }
         public bool WorkFootball { get; set; }
+        public bool Archive { get; set; }
+        public DateTime? DateArchived { get; set; }
         public DateTime DateApplied { get; set; }
         
 

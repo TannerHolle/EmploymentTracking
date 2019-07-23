@@ -6,7 +6,6 @@
 
 <h2>ApplicantCreate</h2>
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -31,7 +30,7 @@
             </div>
         </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.StudentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.StudentNumber, new { htmlAttributes = new { @class = "form-control" } })
@@ -45,10 +44,20 @@
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ScheduleAllowed, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.International, "Are you an International Student?", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.International)
+                    @Html.ValidationMessageFor(model => model.International, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScheduleAllowed, "Can we view your class schedule? This will not affect our hiring decision", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.ScheduleAllowed)
@@ -68,11 +77,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EPaf, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EForms, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.EPaf)
-                    @Html.ValidationMessageFor(model => model.EPaf, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.EForms)
+                    @Html.ValidationMessageFor(model => model.EForms, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -88,18 +97,27 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Training, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Orientation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Training)
-                    @Html.ValidationMessageFor(model => model.Training, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Orientation)
+                    @Html.ValidationMessageFor(model => model.Orientation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OnSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.OnSchedule)
+                    @Html.ValidationMessageFor(model => model.OnSchedule, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>*@
 
         <div class="form-group">
-            @*@Html.LabelFor(model => model.DesiredHours, htmlAttributes: new { @class = "control-label col-md-2" })*@
-            How many hours a week do you want to work?
+            @Html.LabelFor(model => model.DesiredHours, "How many hours a week do you want to work?", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DesiredHours, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DesiredHours, "", new { @class = "text-danger" })
@@ -107,7 +125,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WorkSunday, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.WorkSunday, "Are you willing to work 1 Sunday a Semester? All employees can receive a free meal", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.WorkSunday)
@@ -117,7 +135,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WorkFootball, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.WorkFootball, "Do you want to work all 6 Football games at a Premium rate?", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.WorkFootball)
@@ -127,14 +145,24 @@
         </div>
 
         @*<div class="form-group">
+            @Html.LabelFor(model => model.Archive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Archive)
+                    @Html.ValidationMessageFor(model => model.Archive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.DateApplied, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateApplied, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateApplied, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.LocationID, "LocationID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("LocationID", null, htmlAttributes: new { @class = "form-control" })
@@ -153,7 +181,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

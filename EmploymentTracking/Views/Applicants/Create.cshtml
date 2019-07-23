@@ -6,7 +6,6 @@
 
 <h2>Create</h2>
 
-
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -48,6 +47,16 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.International, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.International)
+                    @Html.ValidationMessageFor(model => model.International, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.ScheduleAllowed, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
@@ -68,11 +77,11 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EPaf, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EForms, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.EPaf)
-                    @Html.ValidationMessageFor(model => model.EPaf, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.EForms)
+                    @Html.ValidationMessageFor(model => model.EForms, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -88,11 +97,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Training, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Orientation, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Training)
-                    @Html.ValidationMessageFor(model => model.Training, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.Orientation)
+                    @Html.ValidationMessageFor(model => model.Orientation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.OnSchedule, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.OnSchedule)
+                    @Html.ValidationMessageFor(model => model.OnSchedule, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -125,13 +144,23 @@
             </div>
         </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Archive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Archive)
+                    @Html.ValidationMessageFor(model => model.Archive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.DateApplied, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DateApplied, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DateApplied, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.LocationID, "LocationID", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -152,7 +181,3 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

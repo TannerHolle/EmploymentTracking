@@ -4,10 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using EmploymentTracking.DAL;
 using EmploymentTracking.Models;
+using Newtonsoft.Json;
 
 namespace EmploymentTracking.Controllers
 {
@@ -16,8 +18,14 @@ namespace EmploymentTracking.Controllers
         private TrackingContext db = new TrackingContext();
 
         // GET: Applicants
-       // [Authorize(Roles = "Manager")]
         public ActionResult Index()
+        {
+            var application = db.Application.Include(a => a.Location);
+            return View(application.ToList());
+        }
+
+        // Archive Method
+        public ActionResult Archive()
         {
             var application = db.Application.Include(a => a.Location);
             return View(application.ToList());
@@ -50,12 +58,11 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
+        public ActionResult Create([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,International,ScheduleAllowed,Hired,EForms,I9,Orientation,OnSchedule,DesiredHours,WorkSunday,WorkFootball,Archive,DateArchived,DateApplied,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
                 db.Application.Add(applicant);
-                applicant.DateApplied = DateTime.Now;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,9 +70,8 @@ namespace EmploymentTracking.Controllers
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName", applicant.LocationID);
             return View(applicant);
         }
-
+        
         // GET: Applicants/Create
-        [Authorize]
         public ActionResult ApplicantCreate()
         {
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName");
@@ -77,23 +83,38 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ApplicantCreate([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
+        public ActionResult ApplicantCreate([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,International,ScheduleAllowed,Hired,EForms,I9,Orientation,OnSchedule,DesiredHours,WorkSunday,WorkFootball,Archive,DateArchived,DateApplied,LocationID")] Applicant applicant)
         {
             string LinkID = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             LinkID = LinkID.Substring(LinkID.Length - 23);
-
-            if (ModelState.IsValid)
+            if (LinkID == "licants/ApplicantCreate")
             {
-                db.Application.Add(applicant);
-                applicant.DateApplied = DateTime.Now;
-                db.SaveChanges();
-                return Redirect("https://byu.hirevue.com/signup/" + LinkID);
+                if (ModelState.IsValid)
+                {
+                    db.Application.Add(applicant);
+                    applicant.DateApplied = DateTime.Now;
+                    db.SaveChanges();
+                    return View("Thanks");
+                }
             }
+            else
+            {
+              //  LinkID = LinkID.Substring(LinkID.Length - 23);
+
+
+                if (ModelState.IsValid)
+                {
+                    db.Application.Add(applicant);
+                    applicant.DateApplied = DateTime.Now;
+                    db.SaveChanges();
+                    return Redirect("https://byu.hirevue.com/signup/" + LinkID);
+                }
+            }
+
 
             ViewBag.LocationID = new SelectList(db.Location, "LocationID", "LocationName", applicant.LocationID);
             return View(applicant);
         }
-
 
         // GET: Applicants/Edit/5
         public ActionResult Edit(int? id)
@@ -116,11 +137,14 @@ namespace EmploymentTracking.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,ScheduleAllowed,Hired,EPaf,I9,Training,DesiredHours,WorkSunday,WorkFootball,DateApplied,LocationID")] Applicant applicant)
+        public ActionResult Edit([Bind(Include = "ApplicantID,FirstName,LastName,StudentNumber,Email,International,ScheduleAllowed,Hired,EForms,I9,Orientation,OnSchedule,DesiredHours,WorkSunday,WorkFootball,Archive,DateArchived,DateApplied,LocationID")] Applicant applicant)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(applicant).State = EntityState.Modified;
+                if (applicant.Archive == true) {
+                    applicant.DateArchived = DateTime.Now;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -164,6 +188,36 @@ namespace EmploymentTracking.Controllers
         }
 
         public ActionResult Schedule(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Applicant applicant = db.Application.Find(id);
+            if (applicant == null)
+            {
+                return HttpNotFound();
+            }
+            return View(applicant);
+        }
+
+        public ActionResult Location(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Applicant applicant = db.Application.Find(id);
+
+
+            if (applicant == null)
+            {
+                return HttpNotFound();
+            }
+            return View(applicant);
+        }
+
+        public ActionResult PracticeEdit(int? id)
         {
             if (id == null)
             {
